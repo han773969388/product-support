@@ -8,7 +8,10 @@
 module.exports = {
   name: 'eBaymag Product Support',  // 项目的名字
   favicon: '../docs/screenshots/favicon.svg',  // 网站的favicon图标
-  footer: '<ul class="footer_xsOUi"><li class="item_TRFL3"><a class="link_I6skQ normal_gKEUh link_ExK8I" href="https://help.ebaymag.com/en/" target="_blank" rel="noopener noreferrer"><span>Help Center</span></a></li><li class="item_TRFL3"><a class="link_I6skQ normal_gKEUh link_ExK8I" href="https://help.ebaymag.com/en/articles/7941255-frequently-asked-questions" target="_blank" rel="noopener noreferrer"><span>Frequently asked questions</span></a></li><li class="item_TRFL3"><a class="link_I6skQ normal_gKEUh link_ExK8I" href="/articles/terms" target="_blank" rel="noopener noreferrer"><span>Terms and conditions</span></a></li><li class="item_TRFL3">Copyright © 1995 — 2025 eBay Inc</li><li class="item_TRFL3">eBay selling fees apply</li></ul>',  // footer中显示的字, 可以嵌入html标签
+  footer: '<a href="https://help.ebaymag.com/en/" target="_blank"><span>Help Center</span></a> | ' +
+    '<a href="https://help.ebaymag.com/en/articles/7941255-frequently-asked-questions" target="_blank"><span>Frequently asked questions</span></a> | ' +
+    '<a href="https://ebaymag.com/articles/terms" target="_blank"><span>Terms and conditions</span></a> | ' +
+    '<span>Copyright © 1995 — 2025 eBay Inc</span>',
   debug: true,  // 是否开启debug模式, 不会请求后端接口, 使用mock的数据
 
   tabMode: {  // tab模式相关配置
@@ -29,18 +32,6 @@ module.exports = {
     host: 'http://localhost:12345',  // 调用ajax接口的地址, 默认值空, 如果是跨域的, 服务端要支持CORS
     path: '/api',  // ajax请求的路径
     timeout: 15000,  // 请求的超时时间, 单位毫秒
-  },
-
-  login: {  // 登录相关配置
-    getCurrentUser: '/getCurrentUser',  // 后端必须要提供接口校验当前用户的身份, 如果拿不到用户信息, 才会尝试登录
-    // 登录有两种情况:
-
-    // 1. 使用sso登录, 直接跳转就可以了
-    sso: '',  // 是否使用单点登录? 是的话我会把地址encode后加到后面, 然后跳转, 如果这个是空字符串, 说明不使用单点登录
-    // 2. 不使用sso, 使用我提供的一个登录界面
-    validate: '/login',  // 校验用户信息, 表单的submit地址. 如果登录成功, 必须返回用户名
-
-    logout: '/logout',  // 退出的url, 用户点击退出时, 浏览器会直接跳转到这个链接
   },
 
   upload: {  // 上传相关配置
