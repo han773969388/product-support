@@ -2,17 +2,13 @@
  * 定义整个项目的全局配置
  */
 
+// eslint-disable-next-line strict
 'use strict';
 
-// 约定优于配置
-// 我可以提供尽量多的配置, 但尽量不要太个性化, 接口的路径/名称/格式之类的
-// 遵循统一的规范, 好维护, 交给其他人也比较简单
-
 module.exports = {
-  name: 'OOXX管理后台',  // 项目的名字
-  favicon: 'http://jxy.me/favicon.ico',  // 设置网页的favicon, 可以是外链, 也可以是本地
-  footer: '<a target="_blank" href="http://jxy.me">foolbear</a>版权所有 © 2015-2099',  // footer中显示的字, 可以嵌入html标签
-
+  name: 'eBaymag Product Support',  // 项目的名字
+  favicon: '../docs/screenshots/favicon.svg',  // 网站的favicon图标
+  footer: '<ul class="footer_xsOUi"><li class="item_TRFL3"><a class="link_I6skQ normal_gKEUh link_ExK8I" href="https://help.ebaymag.com/en/" target="_blank" rel="noopener noreferrer"><span>Help Center</span></a></li><li class="item_TRFL3"><a class="link_I6skQ normal_gKEUh link_ExK8I" href="https://help.ebaymag.com/en/articles/7941255-frequently-asked-questions" target="_blank" rel="noopener noreferrer"><span>Frequently asked questions</span></a></li><li class="item_TRFL3"><a class="link_I6skQ normal_gKEUh link_ExK8I" href="/articles/terms" target="_blank" rel="noopener noreferrer"><span>Terms and conditions</span></a></li><li class="item_TRFL3">Copyright © 1995 — 2025 eBay Inc</li><li class="item_TRFL3">eBay selling fees apply</li></ul>',  // footer中显示的字, 可以嵌入html标签
   debug: true,  // 是否开启debug模式, 不会请求后端接口, 使用mock的数据
 
   tabMode: {  // tab模式相关配置
@@ -37,7 +33,6 @@ module.exports = {
 
   login: {  // 登录相关配置
     getCurrentUser: '/getCurrentUser',  // 后端必须要提供接口校验当前用户的身份, 如果拿不到用户信息, 才会尝试登录
-
     // 登录有两种情况:
 
     // 1. 使用sso登录, 直接跳转就可以了
