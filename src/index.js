@@ -75,9 +75,11 @@ const routes = (
 
         <Route path="headerMenu4" component={Hello}/>
         <Route path="alone" component={Hello}/>
-        <Route path="alone2" component={Hello}/>
+        <Route path="alone2" component={Hello} />
 
-        <Route path="*" component={Error}/>
+        <Route path="productSupport" tableName="ps" getComponent={DBTableContainer} />
+
+        <Route path="*" component={Error} />
 
       </Route>
     </Router>

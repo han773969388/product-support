@@ -239,6 +239,7 @@ class DBTable extends React.PureComponent {
       return;
     }
 
+    console.log(242)
     const res = await this.select(this.state.queryObj, this.state.currentPage, this.state.pageSize);
     //message.success('查询成功');
     if (res.success) {
@@ -281,12 +282,12 @@ class DBTable extends React.PureComponent {
     const tmpObj = Object.assign({}, queryObj);  // 创建一个新的临时对象, 其实直接修改queryObj也可以
     tmpObj.page = page;
     tmpObj.pageSize = pageSize;
-
+    console.log(285);
     // 每次查询时, 要显示一个提示, 同时table组件也要变为loading状态
     const hide = message.loading('正在查询...', 0);
     try {
       const CRUD = ajax.CRUD(this.tableName);
-      this.setState({tableLoading: true});
+      this.setState({ tableLoading: true });
       const res = await CRUD.select(tmpObj);
       // 请求结束后, 提示消失, 但不要急着还原tableLoading的状态, 让上层调用的方法去还原
       hide();
@@ -366,19 +367,6 @@ class DBTable extends React.PureComponent {
 
 
   render() {
-    // 一段有些tricky的代码, 某些情况下显示一个特殊的loading
-    // 主要是为了用户第一次进入的时候, 交互更友好
-    // FIXME: 这段代码非常丑, (!this.inited && !this.errorMsg)这个条件是为了hack一个react-router的问题
-    // 如果从首页点击侧边栏进入DBTable组件, 会依次触发componentWillMount和componentWillReceiveProps, 而直接从url进入的话则只会触发componentWillMount
-    // 感觉react-router坑好多啊
-    if (this.state.loadingSchema && (!this.notFirstRender || (!this.inited && !this.errorMsg))) {
-      this.notFirstRender = true;
-      return (
-        <Spin tip="loading schema..." spinning={this.state.loadingSchema} delay={500}>
-          <div style={{ height: '150px', width: '100%' }}></div>
-        </Spin>
-      );
-    }
     this.notFirstRender = true;
 
     // 如果没能成功加载schema, 显示错误信息
@@ -395,6 +383,8 @@ class DBTable extends React.PureComponent {
     // 2. 父组件传进去的方法名都是parentHandleXXX
     // 3. InnerForm和InnerPagination都是无状态的, 但InnerTable还是要维护自己的一些状态
 
+    console.log(this)
+
     return (
       <Spin spinning={this.state.loadingSchema} delay={500}>
         <InnerForm parentHandleSubmit={this.handleFormSubmit} schema={this.querySchema} tableConfig={this.tableConfig}
@@ -402,11 +392,11 @@ class DBTable extends React.PureComponent {
         <InnerTable data={this.state.data} tableLoading={this.state.tableLoading}
                     schema={this.dataSchema} refresh={this.refresh}
                     tableConfig={this.tableConfig} tableName={this.tableName}/>
-        <InnerPagination currentPage={this.state.currentPage} total={this.state.total} pageSize={this.state.pageSize}
-                         parentHandlePageChange={this.handlePageChange} tableConfig={this.tableConfig}
-                         showSizeChanger={this.state.showSizeChanger} pageSizeOptions={this.state.pageSizeOptions}
-                         parentHandleShowPageChange={this.handleShowPageChange}
-                         tableName={this.tableName}/>
+        {/*<InnerPagination currentPage={this.state.currentPage} total={this.state.total} pageSize={this.state.pageSize}*/}
+        {/*                 parentHandlePageChange={this.handlePageChange} tableConfig={this.tableConfig}*/}
+        {/*                 showSizeChanger={this.state.showSizeChanger} pageSizeOptions={this.state.pageSizeOptions}*/}
+        {/*                 parentHandleShowPageChange={this.handleShowPageChange}*/}
+        {/*                 tableName={this.tableName}/>*/}
       </Spin>
     );
   }
