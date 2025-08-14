@@ -213,6 +213,8 @@ class MockAjax {
   }
 
   CRUD(tableName) {
+    console.log(216)
+    console.log(this.tableCache)
     if (this.tableCache.has(tableName)) {
       return this.tableCache.get(tableName);
     }

@@ -130,6 +130,11 @@ const sidebarMenu = [
       },
     ],
   },
+  {
+    key: 'productSupport',
+    name: 'Product Support',
+    icon: 'eye',
+  },
 ];
 
 export default sidebarMenu;
