@@ -74,6 +74,7 @@ class DBTable extends React.PureComponent {
 
 
   componentWillMount() {
+    console.log('DBTable componentWillMount');
     // 处理url参数
     this.processQueryParams();
     // 组件初始化时尝试获取schema
@@ -102,7 +103,6 @@ class DBTable extends React.PureComponent {
     // 但是在tab模式下, 为了防止不同tab之间的干扰, 每个tab下都必须是一个"独立"的组件, 换句话说有很多不同DBTable组件的实例
     // 类似单例和多实例的区别
     if (globalConfig.tabMode.enable === true) {
-      logger.debug('ignore props update under tabMode');
       return;
     }
 
@@ -112,7 +112,6 @@ class DBTable extends React.PureComponent {
       return;
     }
 
-    logger.debug('receive new props and try to render, nextProps = %o', nextProps);
     // 应该只有react router会触发这个方法
     if (nextProps.routes) {
       // 如果表名不变的话, 没必要重新加载schema/refresh, 直接return
@@ -158,9 +157,7 @@ class DBTable extends React.PureComponent {
     // 可以用这个方法向组件传值
     const tableName = routes.pop().tableName;
     if (tableName) {
-      logger.info('init component DBTable with tableName = %s', tableName);
     } else {
-      logger.error('can not find tableName, check your router config');
       this.inited = false;  // 是否成功获取schema
       this.errorMsg = '找不到表名, 请检查路由配置';  // 如果没能成功获取schema, 错误信息是什么?
       return;
@@ -241,6 +238,7 @@ class DBTable extends React.PureComponent {
 
     console.log(242)
     const res = await this.select(this.state.queryObj, this.state.currentPage, this.state.pageSize);
+    console.log(245)
     //message.success('查询成功');
     if (res.success) {
       this.setState({
@@ -286,14 +284,13 @@ class DBTable extends React.PureComponent {
     // 每次查询时, 要显示一个提示, 同时table组件也要变为loading状态
     const hide = message.loading('正在查询...', 0);
     try {
-      const CRUD = ajax.CRUD(this.tableName);
       this.setState({ tableLoading: true });
-      const res = await CRUD.select(tmpObj);
+      console.log(queryObj)
+      const res = await ajax.get('http://localhost:9090?productId=2', { productId: 2 });
       // 请求结束后, 提示消失, 但不要急着还原tableLoading的状态, 让上层调用的方法去还原
       hide();
       return res;
     } catch (ex) {  // 统一的异常处理, 上层方法不用关心
-      logger.error('select exception, %o', ex);
       hide();
       const res = {};  // 手动构造一个res返回
       res.success = false;
@@ -308,7 +305,6 @@ class DBTable extends React.PureComponent {
    * @param page
    */
   handlePageChange = async(page) => {
-    logger.debug('handlePageChange, page = %d', page);
     const res = await this.select(this.state.queryObj, page, this.state.pageSize);
     if (res.success) {
       this.setState({
@@ -328,7 +324,6 @@ class DBTable extends React.PureComponent {
    * @param page
    */
   handleShowPageChange = async(page, pageSize) => {
-    logger.debug('handleShowPageSizeChange, page = %d', page);
     const res = await this.select(this.state.queryObj, page, pageSize);
     if (res.success) {
       this.setState({
@@ -349,7 +344,6 @@ class DBTable extends React.PureComponent {
    * @param queryObj
    */
   handleFormSubmit = async(queryObj) => {
-    logger.debug('handleFormSubmit, queryObj = %o', queryObj);
     // 这时查询条件已经变了, 要从第一页开始查
     const res = await this.select(queryObj, 1, this.state.pageSize);
     if (res.success) {
@@ -379,12 +373,6 @@ class DBTable extends React.PureComponent {
       );
     }
 
-    // 1. 之前传props是直接{...this.state}, 感觉会影响效率, 传很多无用的属性
-    // 2. 父组件传进去的方法名都是parentHandleXXX
-    // 3. InnerForm和InnerPagination都是无状态的, 但InnerTable还是要维护自己的一些状态
-
-    console.log(this)
-
     return (
       <Spin spinning={this.state.loadingSchema} delay={500}>
         <InnerForm parentHandleSubmit={this.handleFormSubmit} schema={this.querySchema} tableConfig={this.tableConfig}
@@ -392,11 +380,6 @@ class DBTable extends React.PureComponent {
         <InnerTable data={this.state.data} tableLoading={this.state.tableLoading}
                     schema={this.dataSchema} refresh={this.refresh}
                     tableConfig={this.tableConfig} tableName={this.tableName}/>
-        {/*<InnerPagination currentPage={this.state.currentPage} total={this.state.total} pageSize={this.state.pageSize}*/}
-        {/*                 parentHandlePageChange={this.handlePageChange} tableConfig={this.tableConfig}*/}
-        {/*                 showSizeChanger={this.state.showSizeChanger} pageSizeOptions={this.state.pageSizeOptions}*/}
-        {/*                 parentHandleShowPageChange={this.handleShowPageChange}*/}
-        {/*                 tableName={this.tableName}/>*/}
       </Spin>
     );
   }

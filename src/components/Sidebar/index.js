@@ -212,10 +212,6 @@ class Sidebar extends React.PureComponent {
 
 }
 
-// 什么时候使用箭头函数?
-// 1. 碰到this问题的时候
-// 2. 要写function关键字的时候
-
 const mapStateToProps = (state) => {
   return {
     collapse: state.Sidebar.collapse,
